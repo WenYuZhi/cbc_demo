@@ -21,13 +21,13 @@ make
 
 CBC Solver（Coin-or Branch and Cut Solver）是一个开源的线性和混合整数规划求解器。它基于Coin-OR计划，是一个强大的数学优化工具。CBC Solver 提供了一系列高效的算法和技术，用于处理线性规划（LP）和混合整数规划（MIP）问题。它具有广泛的应用领域，包括生产调度、供应链优化、资源分配等。
 
-考虑使用 CBC Solver 而不使用 Gurobi 或者 CPLEX求解器的主要原因在于商用场景之下 CBC Solver 是完全免费完全开源的，同时从安全性角度来讲 CBC solver 也是相对来说最安全的 （被断供被封杀的可能性最小），这也是某大厂经常使用 CBC solver 的原因。当然 CBC solver的缺点是显而易见的：
+考虑使用 CBC Solver 而不使用 Gurobi 或者 CPLEX 求解器的主要原因在于商用场景之下 CBC Solver 是完全免费完全开源的，同时从安全性角度来讲 CBC Solver 也是相对来说最安全的 （被断供被封杀的可能性最小），这也是某大厂经常使用 CBC Solver 的原因。当然 CBC Solver 的缺点是显而易见的：
 
-1. 求解速度很慢，只能作为一个 weak solver 来用，解个线性规划解个几百个变量的整数规划还可以，问题规模稍大一点就不行了。非商业目的只是学术科研的话就不需要考虑用CBC
+1. 求解速度很慢，只能作为一个 weak solver 来用，解个线性规划解个几百个变量的整数规划还可以，问题规模稍大一点就不行了。非商业目的只是学术科研的话就不需要考虑用 CBC Solver
 2. CBC的文档写得稀烂，当然对于开源项目来说我们不能要求太多，人家都把源码给你白嫖了，你再要求有好的文档是有点过分了，所以很多时候用户只能去读源代码来做自己的开发。这就造成开发效率比较低下，上手的难度大大增加。
-3. 可参考教程少，网上关于 Gurobi，CPLEX 等主流求解器的资料很多，实际应用案例也非常多，但是关于CBC solver 的几乎没有几个，所以遇到问题也无从查起。
+3. 可参考教程少，网上关于 Gurobi 和 CPLEX 等主流求解器的资料很多，实际应用案例也非常多，但是关于 CBC Solver 的几乎没有几个，所以遇到问题也无从查起。
 
-鉴于此也是撰写本文的原因，把常用的 CBC solver的API做一个demo，形成一个初步的开发文档，方便大家使用。在公众号后台回复 ”CBC“ 即可获得整套代码。
+鉴于此也是撰写本文的原因，把常用的 CBC Solver 的API做一个 demo，形成一个初步的开发文档，方便大家使用。
 
 ### 1 添加决策变量
 
@@ -41,9 +41,9 @@ CBC Solver（Coin-or Branch and Cut Solver）是一个开源的线性和混合�
       solver1.addCol(v0, 0, 1, 0.0);
 ```
 
-CoinPackerVector 是 CBC solver 自己定义的一种数据类型，主要是为了存储向量而设计的。不同于常见的 vector，CoinPackerVector 会存储向量的索引和元素值。例如一个数组 {2,0,5,6,0,7}，在CoinPackerVector 会这样表示 {(0,2), (2,5), (3,6), (5,7)}.
+CoinPackerVector 是 CBC Solver 自己定义的一种数据类型，主要是为了存储向量而设计的。不同于常见的 vector，CoinPackerVector 会存储向量的索引和元素值。例如一个数组 {2,0,5,6,0,7}，在CoinPackerVector 会这样表示 {(0,2), (2,5), (3,6), (5,7)}.
 
-solver1.addCol(v0, 0, 1, 0.0); 中 v0 表示该变量在约束中的向量，0，1分别代表变量的上下界，0.0代表变量在目标函数的系数。这里我们先不指定变量在哪些约束中出现所有 v0 只需要放一个空的 vector即可，因为我们会在后边添加约束。
+solver1.addCol(v0, 0, 1, 0.0); 中 v0 表示该变量在约束中的向量，0和1分别代表变量的上下界，0.0代表变量在目标函数的系数。这里我们先不指定变量在哪些约束中出现所有 v0 只需要放一个空的 vector即可，因为我们会在后边添加约束。
 
 #### 1.2 修改决策变量上下界，变量名和变量类型
 
@@ -288,7 +288,9 @@ $$
 $$
 
 colCoeffs: $\left[ 10,3,30,40,50,60,5,12 \right]$
+
 colIdxs:$\left[ 0,1,1,3,2,3,4,5 \right]$
+
 rowStart: $\left[ 0,2,4,7,8 \right]$
 
 如何访问某一行的元素，我们在代码注释里边添加了，这里就不再赘述了。更多关于行压缩矩阵的内容可以参考：
@@ -320,3 +322,9 @@ assert(numMpsReadErrors == 0);
 // Write MPS file
 solver1.writeMps("./new_model.mps", "");
 ```
+
+#### 参考文献：
+
+【1】https://coin-or.github.io/Cbc/Doxygen/annotated.html
+【2】https://coin-or.github.io/Cbc/
+【3】https://github.com/coin-or/Cbc
