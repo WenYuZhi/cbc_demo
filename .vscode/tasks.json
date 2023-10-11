@@ -1,0 +1,45 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "CBC install",
+            "command": "make",
+            "args": [
+                "install"
+            ],
+            "dependsOn": "CBC make",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "type": "cppbuild",
+            "label": "CBC make",
+            "command": "make",
+            "args": [
+            ],
+            "dependsOn": "CBC configure",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "type": "cppbuild",
+            "label": "CBC configure",
+            "command": "source",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+        }
+    ]
+}
