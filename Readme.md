@@ -289,7 +289,7 @@ $$
 
 colCoeffs: $\left[ 10,3,30,40,50,60,5,12 \right]$
 
-colIdxs:$\left[ 0,1,1,3,2,3,4,5 \right]$
+colIdxs: $\left[ 0,1,1,3,2,3,4,5 \right]$
 
 rowStart: $\left[ 0,2,4,7,8 \right]$
 
@@ -326,5 +326,7 @@ solver1.writeMps("./new_model.mps", "");
 #### 参考文献：
 
 【1】https://coin-or.github.io/Cbc/Doxygen/annotated.html
+
 【2】https://coin-or.github.io/Cbc/
+
 【3】https://github.com/coin-or/Cbc
