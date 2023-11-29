@@ -25,13 +25,10 @@ struct ProblemInstance
     std::vector<std::string> rowName;
 };
 
-ProblemInstance data;
 
 ProblemInstance getProblemData(CbcModel& model)
 {
-    int status = 0;
     ProblemInstance data;
-
     data.numRows = model.solver()->getNumRows();
     data.numCols = model.solver()->getNumCols();
     data.numNonZeros = model.solver()->getNumElements(); // get the number of nonzeros elements 
@@ -182,7 +179,7 @@ int main(int argc, const char *argv[]) {
   
   CbcModel model(solver1);
 
-  data = getProblemData(model);
+  ProblemInstance data = getProblemData(model);
   // data.printStat();
 
   // Set the number of threads to use in parallel
@@ -205,6 +202,13 @@ int main(int argc, const char *argv[]) {
   
   std::cout << std::endl << "----------         Solution         ----------" << std::endl;
   int status = model.status();
+
+  if (status == -1)
+      std::cout << "Problem has not been solved" << std::endl;
+  else if (status == 0)
+      std::cout << "Solution process is finished" << std::endl;
+  
+
     /** Final status of problem
         -1 before branchAndBound
         0 finished - check isProvenOptimal or isProvenInfeasible to see if solution found
